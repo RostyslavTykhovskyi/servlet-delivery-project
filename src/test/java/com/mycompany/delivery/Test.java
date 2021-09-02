@@ -1,10 +1,9 @@
 package com.mycompany.delivery;
 
-import com.mycompany.delivery.model.entity.Status;
-
 public class Test {
     @org.junit.Test
     public void test() {
-        System.out.println(Status.valueOf("PAID").toString());
+        String USERNAME_REGEX = "^[a-zA-Z0-9_]{4,19}$";
+        System.out.println(USERNAME_REGEX.matches("user123"));
     }
 }

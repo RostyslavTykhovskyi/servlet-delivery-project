@@ -16,7 +16,7 @@
 <%@ include file = "../fragments/header.jsp" %>
 
 <div class="container-lg d-flex flex-column align-items-center">
-    <h1 style="margin-top: 50px;"><fmt:message key="users"/></h1>
+    <h1 style="margin-top: 50px;"><fmt:message key="routes"/></h1>
 
     <c:if test="${requestScope.routes.size() == 0}">
         <h3><fmt:message key="empty"/></h3>

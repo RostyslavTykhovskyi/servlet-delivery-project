@@ -23,9 +23,16 @@ public class LoginCommand implements Command {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        User user = userService.findByUsername(username);
+        User user;
 
-        if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+        try {
+            user = userService.findByUsername(username);
+
+            if (!new BCryptPasswordEncoder().matches(password, user.getPassword())) {
+                throw new RuntimeException("Invalid password");
+            }
+        } catch (RuntimeException ex) {
+            request.setAttribute("error", ex.getMessage());
             return "WEB-INF/views/login.jsp";
         }
 

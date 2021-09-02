@@ -15,76 +15,85 @@
 <body class="d-flex flex-column min-vh-100">
 <%@ include file = "fragments/header.jsp" %>
 
-<div class="container" style="width: 500px; margin-top: 50px; margin-bottom: 50px;">
-    <form id="form" action="${pageContext.request.contextPath}/" method="POST">
-        <div class="mb-3">
-            <label for="route" class="form-label"><fmt:message key="order.route"/></label>
-            <select id="route" class="form-select" name="route_id" required>
-                <c:forEach var="route" items="${requestScope.routes}">
-                    <option value="${route.id}" ${route.id == requestScope.route_id ? 'selected' : ''}>
-                            ${route.departurePoint} — ${route.arrivalPoint}
-                    </option>
+<div class="container-lg d-flex flex-column align-items-center">
+    <h1 style="margin-top: 50px;"><fmt:message key="routes"/></h1>
+
+    <c:if test="${requestScope.routes.size() == 0}">
+        <h3><fmt:message key="empty"/></h3>
+    </c:if>
+
+    <c:if test="${requestScope.routes.size() > 0}">
+        <table class="table table-hover align-middle" style="width: 800px;">
+            <thead>
+            <tr>
+                <th scope="col">
+                    <a class="link-dark text-decoration-none" href="${pageContext.request.contextPath}/?page=${requestScope.page}&sortField=route_id&sortDirection=${requestScope.reverseSortDir}">
+                        Id${requestScope.sortField != 'route_id' ? '' : requestScope.sortDirection == 'DESC' ? '▾' : '▴'}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a class="link-dark text-decoration-none" href="${pageContext.request.contextPath}/?page=${requestScope.page}&sortField=departure_point&sortDirection=${requestScope.reverseSortDir}">
+                        <fmt:message key="route.departure"/>${requestScope.sortField != 'departure_point' ? '' : requestScope.sortDirection == 'DESC' ? '▾' : '▴'}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a class="link-dark text-decoration-none" href="${pageContext.request.contextPath}/?page=${requestScope.page}&sortField=arrival_point&sortDirection=${requestScope.reverseSortDir}">
+                        <fmt:message key="route.arrival"/>${requestScope.sortField != 'arrival_point' ? '' : requestScope.sortDirection == 'DESC' ? '▾' : '▴'}
+                    </a>
+                </th>
+                <th scope="col">
+                    <a class="link-dark text-decoration-none" href="${pageContext.request.contextPath}/?page=${requestScope.page}&sortField=length&sortDirection=${requestScope.reverseSortDir}">
+                        <fmt:message key="route.length"/>${requestScope.sortField != 'length' ? '' : requestScope.sortDirection == 'DESC' ? '▾' : '▴'}
+                    </a>
+                </th>
+                <th scope="col"><fmt:message key="actions"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="route" items="${requestScope.routes}">
+                <tr>
+                    <th scope="row">${route.id}</th>
+                    <td>${route.departurePoint}</td>
+                    <td>${route.arrivalPoint}</td>
+                    <td>${route.length}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/order" style="margin: 0" method="GET">
+                            <input type="hidden" name="route_id" value="${route.id}">
+                            <button class="btn btn-primary" type="submit"><fmt:message key="button.order"/></a>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </c:if>
+
+    <c:if test="${requestScope.pageNumber > 1}">
+        <nav>
+            <ul class="pagination">
+                <li ${requestScope.page == 1 ? 'class="page-item disabled"' : 'class="page-item"'}>
+                    <a class="page-link"
+                       href="${pageContext.request.contextPath}/?page=${requestScope.page - 1}&sortField=${requestScope.sortField}&sortDirection=${requestScope.sortDirection}"
+                       aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <c:forEach begin="1" end="${requestScope.pageNumber}" var="i">
+                    <li ${i == requestScope.page ? 'class="page-item active"' : 'class="page-item"'}>
+                        <a class="page-link"
+                           href="${pageContext.request.contextPath}/?page=${i}&sortField=${requestScope.sortField}&sortDirection=${requestScope.sortDirection}">${i}</a>
+                    </li>
                 </c:forEach>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="length" class="form-label"><fmt:message key="order.length"/></label>
-            <input type="number" class="form-control" id="length" name="length" value="${requestScope.length}" required>
-<%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('length')}" th:text="#{error.length}">--%>
-<%--                Length must be greater than 1.--%>
-<%--            </div>--%>
-        </div>
-        <div class="mb-3">
-            <label for="width" class="form-label"><fmt:message key="order.width"/></label>
-            <input type="number" class="form-control" id="width" name="width" value="${requestScope.width}" required>
-<%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('width')}" th:text="#{error.width}">--%>
-<%--                Width must be greater than 1.--%>
-<%--            </div>--%>
-        </div>
-        <div class="mb-3">
-            <label for="height" class="form-label"><fmt:message key="order.height"/></label>
-            <input type="number" class="form-control" id="height" name="height" value="${requestScope.height}" required>
-<%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('height')}" th:text="#{error.height}">--%>
-<%--                Height must be greater than 1.--%>
-<%--            </div>--%>
-        </div>
-        <div class="mb-3">
-            <label for="weight" class="form-label"><fmt:message key="order.weight"/></label>
-            <input type="number" class="form-control" id="weight" name="weight" value="${requestScope.weight}" required>
-<%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('weight')}" th:text="#{error.weight}">--%>
-<%--                Weight must be greater than 1.--%>
-<%--            </div>--%>
-        </div>
-        <c:if test="${not empty sessionScope.username}">
-            <div class="mb-3">
-                <label for="address" class="form-label"><fmt:message key="order.address"/></label>
-                <input type="text" class="form-control" id="address" name="address" value="${requestScope.address}" required>
-    <%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:text="#{error.address}">--%>
-    <%--                Address must not be blank.--%>
-    <%--            </div>--%>
-            </div>
-        </c:if>
-        <c:if test="${not empty sessionScope.username}">
-            <div class="mb-3">
-                <label for="deliveryDate" class="form-label"><fmt:message key="order.deliveryDate"/></label>
-                <input type="date" class="form-control" id="deliveryDate" name="deliveryDate" value="${requestScope.deliveryDate}" min="${requestScope.minDate}" required>
-    <%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('deliveryDate')}" th:text="#{error.deliveryDate}">--%>
-    <%--                Delivery date must be at least 3 days later than today.--%>
-    <%--            </div>--%>
-            </div>
-        </c:if>
-        <c:if test="${not empty requestScope.cost}">
-            <div class="fs-3 mb-2">
-                <fmt:message key="order.cost"/>: ${requestScope.cost} <fmt:message key="order.currency"/>
-            </div>
-        </c:if>
-        <fmt:message key="button.calculate" var="buttonCalculate"/>
-        <input form="form" class="btn btn-primary" type="submit" name="calculate" value="${buttonCalculate}">
-        <c:if test="${not empty sessionScope.username}">
-            <fmt:message key="button.order" var="buttonOrder"/>
-            <input form="form" class="btn btn-primary" type="submit" name="makeOrder" value="${buttonOrder}">
-        </c:if>
-    </form>
+                <li ${requestScope.page == requestScope.pageNumber ? 'class="page-item disabled"' : 'class="page-item"'}>
+                    <a class="page-link"
+                       href="${pageContext.request.contextPath}/?page=${requestScope.page + 1}&sortField=${requestScope.sortField}&sortDirection=${requestScope.sortDirection}"
+                       aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </c:if>
 </div>
 
 <%@ include file = "fragments/footer.jsp" %>

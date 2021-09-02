@@ -29,7 +29,7 @@ public class AdminFilter implements Filter {
         if (loggedIn) {
             String userRole = (String) session.getAttribute("userRole");
             if (userRole.equals("ROLE_USER")) {
-                response.sendRedirect(request.getContextPath() + "/login");
+                throw new RuntimeException("Access denied.");
             } else if (userRole.equals("ROLE_ADMIN")) {
                 filterChain.doFilter(request, response);
             }

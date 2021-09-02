@@ -28,10 +28,11 @@ public class Servlet extends HttpServlet {
     private final Map<String, Command> commands = new HashMap<>();
 
     public void init(ServletConfig servletConfig){
-        commands.put("/", new MainCommand(userService, routeService, orderService));
+        commands.put("/", new MainCommand(routeService));
         commands.put("/login", new LoginCommand(userService));
         commands.put("/logout", new LogoutCommand());
         commands.put("/registration", new RegistrationCommand(userService));
+        commands.put("/order", new OrderCommand(userService, routeService, orderService));
         commands.put("/cabinet", new CabinetCommand(userService, orderService));
         commands.put("/cabinet/topUp", new CabinetTopUpCommand(userService));
         commands.put("/cabinet/payForOrder", new CabinetPayForOrderCommand(userService, orderService));
@@ -39,7 +40,7 @@ public class Servlet extends HttpServlet {
         commands.put("/admin/users", new AdminUsersCommand(userService));
         commands.put("/admin/routes", new AdminRoutesCommand(routeService));
         commands.put("/admin/orders", new AdminOrdersCommand(orderService));
-        commands.put("/exception" , new ExceptionCommand());
+        commands.put("/error" , new ExceptionCommand());
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -52,6 +53,9 @@ public class Servlet extends HttpServlet {
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Command command = commands.get(request.getRequestURI());
+        if (command == null) {
+            throw new RuntimeException("Page not found");
+        }
         String page = command.execute(request);
 
         if (page.contains("redirect:")) {

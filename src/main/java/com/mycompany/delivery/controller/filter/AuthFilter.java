@@ -23,15 +23,17 @@ public class AuthFilter implements Filter {
         String loginURI = request.getContextPath() + "/login";
         String registrationURI = request.getContextPath() + "/registration";
         String mainURI = request.getContextPath() + "/";
+        String orderURI = request.getContextPath() + "/order";
         String imgURI = request.getContextPath() + "/img";
 
         boolean loggedIn = session != null && session.getAttribute("username") != null;
         boolean loginRequest = request.getRequestURI().equals(loginURI);
         boolean registrationRequest = request.getRequestURI().equals(registrationURI);
         boolean mainRequest = request.getRequestURI().equals(mainURI);
+        boolean orderRequest = request.getRequestURI().equals(orderURI);
         boolean imgRequest = request.getRequestURI().contains(imgURI);
 
-        if (loggedIn || loginRequest || registrationRequest || mainRequest || imgRequest) {
+        if (loggedIn || loginRequest || registrationRequest || mainRequest || orderRequest || imgRequest) {
             filterChain.doFilter(request, response);
         } else {
             response.sendRedirect(loginURI);

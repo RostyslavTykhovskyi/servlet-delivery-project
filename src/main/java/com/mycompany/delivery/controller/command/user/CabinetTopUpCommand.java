@@ -16,9 +16,10 @@ public class CabinetTopUpCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         int amount = Integer.parseInt(request.getParameter("amount"));
-        User user = userService.findByUsername((String) request.getSession().getAttribute("username"));
-        user.setBalance(user.getBalance() + amount);
-        userService.updateUser(user);
+        String username = (String) request.getSession().getAttribute("username");
+
+        userService.topUpUserBalance(username, amount);
+
         return "redirect:/cabinet";
     }
 }

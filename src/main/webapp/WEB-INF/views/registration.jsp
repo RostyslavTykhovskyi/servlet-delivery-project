@@ -16,24 +16,38 @@
 <%@ include file = "fragments/header.jsp" %>
 
 <div class="container" style="width: 500px; margin-top: 50px;">
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger">
+                <fmt:message key="error.taken"/>
+            </div>
+        </c:if>
     <form action="${pageContext.request.contextPath}/registration" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label"><fmt:message key="user.username"/></label>
-            <input type="text" class="form-control" id="username" name="username" required>
-<%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:text="#{error.username}">--%>
-<%--                Username should be 5-20 characters long.--%>
-<%--            </div>--%>
+            <input type="text" value="${requestScope.username}" class="${not empty requestScope.errors['username'] ? 'form-control is-invalid' : 'form-control'}" id="username" name="username" required>
+            <c:if test="${not empty requestScope.errors['username']}">
+                <div class="invalid-feedback">
+                    <fmt:message key="error.username"/>
+                </div>
+            </c:if>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label"><fmt:message key="user.email"/></label>
-            <input type="text" class="form-control" id="email" name="email" required>
-<%--            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:text="#{error.email}">--%>
-<%--                Invalid email.--%>
-<%--            </div>--%>
+            <input type="text" value="${requestScope.email}" class="${not empty requestScope.errors['email'] ? 'form-control is-invalid' : 'form-control'}" id="email" name="email" required>
+            <c:if test="${not empty requestScope.errors['email']}">
+                <div class="invalid-feedback">
+                    <fmt:message key="error.email"/>
+                </div>
+            </c:if>
         </div>
         <div class="mb-3">
             <label for="password" class="form-label"><fmt:message key="user.password"/></label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <input type="password" value="${requestScope.password}" class="${not empty requestScope.errors['password'] ? 'form-control is-invalid' : 'form-control'}" id="password" name="password" required>
+            <c:if test="${not empty requestScope.errors['password']}">
+                <div class="invalid-feedback">
+                    <fmt:message key="error.password"/>
+                </div>
+            </c:if>
         </div>
         <button type="submit" class="btn btn-primary"><fmt:message key="button.registration"/></button>
     </form>

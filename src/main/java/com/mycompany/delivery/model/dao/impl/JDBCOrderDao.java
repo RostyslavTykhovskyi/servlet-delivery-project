@@ -39,10 +39,10 @@ public class JDBCOrderDao implements OrderDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, order.getCost());
-            statement.setInt(2, order.getWeight());
-            statement.setInt(3, order.getLength());
-            statement.setInt(4, order.getWidth());
-            statement.setInt(5, order.getHeight());
+            statement.setDouble(2, order.getWeight());
+            statement.setDouble(3, order.getLength());
+            statement.setDouble(4, order.getWidth());
+            statement.setDouble(5, order.getHeight());
             statement.setString(6, order.getAddress());
             statement.setString(7, order.getStatus().toString());
             statement.setDate(8, Date.valueOf(order.getDeliveryDate()));
@@ -222,10 +222,10 @@ public class JDBCOrderDao implements OrderDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, order.getCost());
-            statement.setInt(2, order.getWeight());
-            statement.setInt(3, order.getLength());
-            statement.setInt(4, order.getWidth());
-            statement.setInt(5, order.getHeight());
+            statement.setDouble(2, order.getWeight());
+            statement.setDouble(3, order.getLength());
+            statement.setDouble(4, order.getWidth());
+            statement.setDouble(5, order.getHeight());
             statement.setString(6, order.getAddress());
             statement.setString(7, order.getStatus().toString());
             statement.setDate(8, Date.valueOf(order.getDeliveryDate()));

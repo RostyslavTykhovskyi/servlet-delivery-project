@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 public class Order {
     private long id;
     private int cost;
-    private int weight;
-    private int length;
-    private int width;
-    private int height;
+    private double weight;
+    private double length;
+    private double width;
+    private double height;
     private String address;
     private LocalDate deliveryDate;
     private LocalDateTime createdOn;
@@ -20,7 +20,7 @@ public class Order {
 
     public Order() {}
 
-    public Order(long id, int cost, int weight, int length, int width, int height,
+    public Order(long id, int cost, double weight, double length, double width, double height,
                  String address, LocalDate deliveryDate, Status status,
                  LocalDateTime createdOn, User user, Route route) {
         this.id = id;
@@ -53,35 +53,35 @@ public class Order {
         this.cost = cost;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public int getLength() {
+    public double getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(double length) {
         this.length = length;
     }
 
-    public int getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(double width) {
         this.width = width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
-    public void setHeight(int height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
@@ -144,8 +144,8 @@ public class Order {
                 ", height=" + height +
                 ", address='" + address + '\'' +
                 ", deliveryDate=" + deliveryDate +
-                ", status=" + status +
                 ", createdOn=" + createdOn +
+                ", status=" + status +
                 ", user=" + user +
                 ", route=" + route +
                 '}';

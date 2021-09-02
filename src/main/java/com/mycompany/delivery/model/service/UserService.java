@@ -16,6 +16,12 @@ public class UserService {
         }
     }
 
+    public void topUpUserBalance(String username, int amount) {
+        try (UserDao userDao = daoFactory.createUserDao()) {
+            userDao.topUpUserBalance(username, amount);
+        }
+    }
+
     public List<User> findPaginated(int page, int pageSize, String sortField, String sortDirection) {
         try (UserDao userDao = daoFactory.createUserDao()) {
             return userDao.findPaginated(page, pageSize, sortField, sortDirection);

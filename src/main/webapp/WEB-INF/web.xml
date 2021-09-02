@@ -21,6 +21,11 @@
         <url-pattern>/favicon.ico</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type >
+        <location>/error</location>
+    </error-page>
+
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.mycompany.delivery.controller.filter.EncodingFilter</filter-class>

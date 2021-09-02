@@ -16,9 +16,11 @@
     <%@ include file = "fragments/header.jsp" %>
 
     <div class="container" style="width: 500px; margin-top: 50px;">
-        <!--<div class="alert alert-danger" role="alert">
-            Incorrect username or password.
-        </div>-->
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger">
+                <fmt:message key="error.login"/>
+            </div>
+        </c:if>
         <form action="/login" method="POST">
             <div class="mb-3">
                 <label for="inputUsername" class="form-label"><fmt:message key="user.username"/></label>

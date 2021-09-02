@@ -11,7 +11,7 @@ public class OrderService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
 
     public int calculateCost(Order order) {
-        return order.getRoute().getLength() / 10 + order.getLength() + order.getWidth() + order.getHeight() + order.getWeight();
+        return (int) (order.getRoute().getLength() / 10 + order.getLength() + order.getWidth() + order.getHeight() + order.getWeight());
     }
 
     public List<Order> findPaginatedByUserId(long userId, int page, int pageSize, String sortField, String sortDirection) {

@@ -29,8 +29,6 @@ public class AdminUsersCommand implements Command {
             sortField = "user_id";
         }
 
-        System.out.println(sortField);
-
         String sortDirection = request.getParameter("sortDirection");
 
         if (sortDirection == null || sortDirection.isEmpty()) {

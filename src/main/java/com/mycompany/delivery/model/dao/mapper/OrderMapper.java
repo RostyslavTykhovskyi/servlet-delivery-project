@@ -14,10 +14,10 @@ public class OrderMapper implements ObjectMapper<Order> {
 
         order.setId(rs.getInt("order_id"));
         order.setCost(rs.getInt("cost"));
-        order.setWeight(rs.getInt("weight"));
-        order.setLength(rs.getInt("length"));
-        order.setWidth(rs.getInt("width"));
-        order.setHeight(rs.getInt("height"));
+        order.setWeight(rs.getDouble("weight"));
+        order.setLength(rs.getDouble("length"));
+        order.setWidth(rs.getDouble("width"));
+        order.setHeight(rs.getDouble("height"));
         order.setAddress(rs.getString("address"));
         order.setDeliveryDate(rs.getDate("delivery_date").toLocalDate());
         order.setCreatedOn(rs.getTimestamp("created_on").toLocalDateTime());

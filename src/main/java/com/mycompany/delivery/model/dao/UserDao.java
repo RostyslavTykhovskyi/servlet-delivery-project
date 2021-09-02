@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserDao extends GenericDao<User, Long> {
     Optional<User> findByUsername(String username);
     void payForOrder(Order order);
+    void topUpUserBalance(String username, int amount);
 }

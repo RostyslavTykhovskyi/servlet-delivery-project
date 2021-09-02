@@ -17,15 +17,15 @@
 
 <div class="container-lg d-flex flex-column align-items-center">
     <div class="d-flex align-items-center" style="margin-top: 50px;">
-        <div class="me-2"><fmt:message key="user.balance"/>: ${requestScope.balance} <fmt:message key="order.currency"/></div>
+        <div class="me-2"><fmt:message key="user.balance"/>: ${requestScope.balance} <fmt:message key="currency"/></div>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#topUpModal">
-            <fmt:message key="button.topup"/>
+            <fmt:message key="button.topUp"/>
         </button>
         <div class="modal fade" id="topUpModal" tabindex="-1" aria-labelledby="topUpModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="topUpModalLabel"><fmt:message key="modal.topup"/></h5>
+                        <h5 class="modal-title" id="topUpModalLabel"><fmt:message key="modal.topUp"/></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -38,7 +38,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><fmt:message key="modal.close"/></button>
-                        <button form="topUpForm" type="submit" class="btn btn-primary"><fmt:message key="button.topup"/></button>
+                        <button form="topUpForm" type="submit" class="btn btn-primary"><fmt:message key="button.topUp"/></button>
                     </div>
                 </div>
             </div>

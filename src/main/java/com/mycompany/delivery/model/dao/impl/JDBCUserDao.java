@@ -1,5 +1,6 @@
 package com.mycompany.delivery.model.dao.impl;
 
+import com.mycompany.delivery.exception.NotUniqueEntityException;
 import com.mycompany.delivery.model.dao.UserDao;
 import com.mycompany.delivery.model.dao.mapper.RoleMapper;
 import com.mycompany.delivery.model.dao.mapper.UserMapper;
@@ -50,6 +51,21 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
+    public void topUpUserBalance(String username, int amount) {
+        String query = "UPDATE \"user\" SET balance = balance + ? WHERE username = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setInt(1, amount);
+            statement.setString(2, username);
+
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    @Override
     public void save(User user) {
         String query = "" +
                 "INSERT INTO \"user\"(" +
@@ -78,7 +94,11 @@ public class JDBCUserDao implements UserDao {
             statement.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            if (ex.getSQLState().equals("23505")) {
+                throw new NotUniqueEntityException(ex.getMessage());
+            } else {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -174,7 +194,6 @@ public class JDBCUserDao implements UserDao {
                 "ORDER BY u." + sortField + " " + sortDirection + " " +
                 "LIMIT " + pageSize + " OFFSET " + start;
 
-        System.out.println(query);
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
