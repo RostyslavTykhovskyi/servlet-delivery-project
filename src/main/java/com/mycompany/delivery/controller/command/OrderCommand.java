@@ -33,6 +33,7 @@ public class OrderCommand implements Command {
             calculateOrderCost(request);
 
             return "WEB-INF/views/order.jsp";
+
         } else if (request.getMethod().equals("POST") && request.getParameter("makeOrder") != null) {
             if (!isOrderValid(request)) {
                 return "WEB-INF/views/order.jsp";
@@ -41,7 +42,7 @@ public class OrderCommand implements Command {
             saveOrder(request);
 
             return "redirect:/order";
-        }
+        } else {
 
         try {
             long route_id = Long.parseLong(request.getParameter("route_id"));
@@ -52,6 +53,7 @@ public class OrderCommand implements Command {
         prepareRequest(request);
 
         return "WEB-INF/views/order.jsp";
+        }
     }
 
     private void prepareRequest(HttpServletRequest request) {
@@ -114,7 +116,6 @@ public class OrderCommand implements Command {
         }
 
         request.setAttribute("cost", orderService.calculateCost(order));
-        request.setAttribute("routes", routeService.findAll());
         request.setAttribute("route_id", order.getRoute().getId());
         request.setAttribute("length", order.getLength());
         request.setAttribute("width", order.getWidth());

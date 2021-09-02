@@ -11,6 +11,9 @@ import com.mycompany.delivery.controller.command.user.CabinetTopUpCommand;
 import com.mycompany.delivery.model.service.OrderService;
 import com.mycompany.delivery.model.service.RouteService;
 import com.mycompany.delivery.model.service.UserService;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,6 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Servlet extends HttpServlet {
+    private static final Logger log = LogManager.getLogger(Servlet.class);
+
     private final UserService userService = new UserService();
     private final RouteService routeService = new RouteService();
     private final OrderService orderService = new OrderService();
@@ -52,10 +57,15 @@ public class Servlet extends HttpServlet {
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        log.info("Request uri: " + request.getRequestURI());
+
         Command command = commands.get(request.getRequestURI());
+
         if (command == null) {
+            log.error("Page not found");
             throw new RuntimeException("Page not found");
         }
+
         String page = command.execute(request);
 
         if (page.contains("redirect:")) {

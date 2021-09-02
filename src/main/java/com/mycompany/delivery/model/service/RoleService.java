@@ -3,6 +3,8 @@ package com.mycompany.delivery.model.service;
 import com.mycompany.delivery.model.dao.DaoFactory;
 import com.mycompany.delivery.model.dao.RoleDao;
 import com.mycompany.delivery.model.entity.Role;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 public class RoleService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
