@@ -4,6 +4,7 @@ import com.mycompany.delivery.controller.command.Command;
 import com.mycompany.delivery.model.entity.Order;
 import com.mycompany.delivery.model.entity.Status;
 import com.mycompany.delivery.model.service.OrderService;
+import com.mycompany.delivery.model.validator.Validator;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,27 +26,9 @@ public class AdminOrdersCommand implements Command {
         }
 
         int pageSize = 5;
-        String pageString = request.getParameter("page");
-
-        int page = pageString == null ? 1 : Integer.parseInt(pageString);
-
-        if (page <= 0) {
-            page = 1;
-        }
-
-        String sortField = request.getParameter("sortField");
-
-        if (sortField == null || sortField.isEmpty()) {
-            sortField = "order_id";
-        }
-
-        String sortDirection = request.getParameter("sortDirection");
-
-        if (sortDirection == null || sortDirection.isEmpty()) {
-            sortDirection = "ASC";
-        } else {
-            sortDirection = sortDirection.equals("ASC") ? "ASC" : "DESC";
-        }
+        int page = Validator.validatePage(request.getParameter("page"), 1);
+        String sortField = Validator.validateSortField(request.getParameter("sortField"), "order_id");
+        String sortDirection = Validator.validateSortDirection(request.getParameter("sortDirection"));
 
         request.setAttribute("orders", orderService.findPaginated(page, pageSize, sortField, sortDirection));
         request.setAttribute("pageNumber", orderService.getNumberOfPages(pageSize));

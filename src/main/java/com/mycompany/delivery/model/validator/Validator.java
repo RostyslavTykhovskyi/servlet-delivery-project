@@ -135,4 +135,31 @@ public class Validator {
 
         return errors;
     }
+
+    public static int validatePage(String pageString, int defaultPage) {
+        try {
+            int page = Integer.parseInt(pageString);
+            return page <= 0 ? defaultPage : page;
+        } catch (NumberFormatException ex) {
+            return defaultPage;
+        }
+    }
+
+    public static String validateSortField(String sortField, String defaultSortField) {
+        if (sortField == null || sortField.trim().isEmpty()) {
+            return defaultSortField;
+        }
+
+        return sortField;
+    }
+
+    public static String validateSortDirection(String sortDirection) {
+        if (sortDirection == null || sortDirection.trim().isEmpty()) {
+            sortDirection = "ASC";
+        } else {
+            sortDirection = sortDirection.equals("ASC") ? "ASC" : "DESC";
+        }
+
+        return sortDirection;
+    }
 }
